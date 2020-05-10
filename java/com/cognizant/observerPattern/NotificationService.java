@@ -3,28 +3,32 @@ package com.cognizant.observerPattern;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class NotificationService implements INotificationService {
 
-	private List<INotificationObserver> list = new ArrayList<>();
+	private List<INotificationObserver> observers;
+	static final Logger LOGGER = LoggerFactory.getLogger(NotificationService.class);
 
-	public void addSubscriber(INotificationObserver notificationObserver) {
-		// TODO Auto-generated method stub
-		list.add(notificationObserver);
-		
-		list.forEach(l -> System.out.println(l));
+	public NotificationService() {
+		observers = new ArrayList<INotificationObserver>();
 	}
 
-	public void removeSubscriber(INotificationObserver notificationObserver) {
-		// TODO Auto-generated method stub
-		list.remove(notificationObserver);
-		list.forEach(l -> System.out.println(l));
+	public void addSubscriber(INotificationObserver observer) {
+		observers.add(observer);
+		LOGGER.debug("List of Subscriber after Addition");
+		LOGGER.debug("Subscriber List{} ", observers);
+	}
+
+	public void removeSubscriber(INotificationObserver observer) {
+		observers.remove(observer);
+		LOGGER.debug("List of Subscriber after Removal");
+		LOGGER.debug("Subscriber List{} ", observers);
 	}
 
 	public void notifySubscriber() {
-		// TODO Auto-generated method stub
-		for (INotificationObserver observer : list) {
+		for (INotificationObserver observer : observers)
 			observer.OnServerDown();
-		}
 	}
-
 }
